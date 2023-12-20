@@ -1,4 +1,5 @@
 require('dotenv').config();
+import { UserEntity } from "src/auth/models/user.entity";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
 
@@ -9,6 +10,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
     username: process.env.POSTGRES_USER,
     password: <string>process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
+    entities: [UserEntity]
 }
 
 const dataSource = new DataSource(dataSourceOptions);
