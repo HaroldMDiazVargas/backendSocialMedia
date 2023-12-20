@@ -16,6 +16,7 @@ import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { PostService } from '../services/post.service';
 import { CreatePostDto } from '../dto';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { IsCreatorGuard } from '../guards/is-creator.guard';
 
 @UseGuards(JwtGuard)
 @Controller('post')
@@ -27,6 +28,7 @@ export class PostController {
     return this.postService.createPost(req.user, dto);
   }
 
+  @UseGuards(IsCreatorGuard)
   @Put(':id')
   update(
     @Param('id') id: number,
@@ -35,6 +37,7 @@ export class PostController {
     return this.postService.updatePost(id, feedPost);
   }
 
+  @UseGuards(IsCreatorGuard)
   @Delete(':id')
   deletePost(@Param('id') id: number): Observable<DeleteResult> {
     return this.postService.deletePost(id);

@@ -36,4 +36,14 @@ export class PostService {
         .getMany(),
     );
   }
+
+  findPostById(id: number): Observable<IPost> {
+    return from(
+      this.postRepository.findOne({
+        where: { id },
+        relations: ['author'],
+        select: ['author'],
+      }),
+    );
+  }
 }
