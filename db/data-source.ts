@@ -1,5 +1,5 @@
 require('dotenv').config();
-import { UserEntity } from "src/auth/models/user.entity";
+import { UserEntity } from "src/auth/models";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
 
