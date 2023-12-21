@@ -3,7 +3,7 @@ import { IPost, PostEntity } from '../models';
 import { IUser } from 'src/auth/models';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Observable, from, switchMap } from 'rxjs';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, ILike, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class PostService {
@@ -29,7 +29,7 @@ export class PostService {
     return from(this.postRepository.softDelete(id));
   }
 
-  findPosts(take = 10, skip = 0): Observable<IPost[]> {
+  findPosts(take = 10, skip = 0, pattern = ''): Observable<IPost[]> {
     return from(
       this.postRepository
         .createQueryBuilder('post')
@@ -37,6 +37,9 @@ export class PostService {
         .orderBy('post.createdAt', 'DESC')
         .take(take)
         .skip(skip)
+        .where({
+          body: ILike(`%${pattern}%`),
+        })
         .getMany(),
     );
   }

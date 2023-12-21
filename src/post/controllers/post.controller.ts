@@ -44,8 +44,9 @@ export class PostController {
   findSelected(
     @Query('take') take = 1,
     @Query('skip') skip = 0,
+    @Query('pattern') pattern = '',
   ): Observable<IPost[]> {
     take = take > 20 ? 20 : take;
-    return this.postService.findPosts(take, skip);
+    return this.postService.findPosts(take, skip, pattern);
   }
 }
