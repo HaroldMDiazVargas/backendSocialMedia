@@ -1,2 +1,2 @@
 export * from './post.entity';
-export * from './post.inteface';
+export * from './post.interface';

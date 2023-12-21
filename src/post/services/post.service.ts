@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IPost, PostEntity } from '../models';
 import { IUser } from 'src/auth/models';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Observable, from } from 'rxjs';
+import { Observable, from, switchMap } from 'rxjs';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
@@ -17,8 +17,12 @@ export class PostService {
     return from(this.postRepository.save(post));
   }
 
-  updatePost(id: number, feedPost: IPost): Observable<UpdateResult> {
-    return from(this.postRepository.update(id, feedPost));
+  updatePost(id: number, feedPost: IPost): Observable<IPost> {
+    return from(this.postRepository.update(id, feedPost)).pipe(
+      switchMap(() => {
+        return this.findPostById(id);
+      }),
+    );
   }
 
   deletePost(id: number): Observable<DeleteResult> {

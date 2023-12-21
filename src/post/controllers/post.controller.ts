@@ -30,10 +30,7 @@ export class PostController {
 
   @UseGuards(IsCreatorGuard)
   @Put(':id')
-  update(
-    @Param('id') id: number,
-    @Body() feedPost: IPost,
-  ): Observable<UpdateResult> {
+  update(@Param('id') id: number, @Body() feedPost: IPost): Observable<IPost> {
     return this.postService.updatePost(id, feedPost);
   }
 
