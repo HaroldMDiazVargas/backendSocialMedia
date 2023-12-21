@@ -6,6 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './../db/data-source';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { AllExceptionsFilter } from './common/filters/all-exception.filter';
+import { HttpCodeInterceptor } from './common/filters/httpCode.interceptor';
 
 @Module({
   imports: [
@@ -21,6 +24,16 @@ import { PostModule } from './post/post.module';
     PostModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpCodeInterceptor,
+    },
+  ],
 })
 export class AppModule {}
