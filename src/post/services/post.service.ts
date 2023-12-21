@@ -26,7 +26,7 @@ export class PostService {
   }
 
   deletePost(id: number): Observable<DeleteResult> {
-    return from(this.postRepository.delete(id));
+    return from(this.postRepository.softDelete(id));
   }
 
   findPosts(take = 10, skip = 0): Observable<IPost[]> {
